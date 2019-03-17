@@ -1,0 +1,6 @@
+NetCorn.iml
+.idea/
+NetCornClient/NetCornClient.iml
+NetCornClient/target/
+NetCornServer/NetCornServer.iml
+NetCornServer/target/
