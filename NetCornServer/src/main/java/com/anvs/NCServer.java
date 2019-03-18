@@ -4,8 +4,9 @@ import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
 
+
 /**
- * Hello world!
+ * Implements simple server with multiple connections
  *
  */
 public class NCServer implements Closeable
