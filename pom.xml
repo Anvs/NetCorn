@@ -11,6 +11,8 @@
   <modules>
     <module>NetCornServer</module>
     <module>NetCornClient</module>
+      <module>MultiTheadTest</module>
+      <module>MultiThreadTutorial</module>
   </modules>
 
   <name>NetCorn</name>
