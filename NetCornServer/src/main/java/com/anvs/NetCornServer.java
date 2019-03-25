@@ -1,26 +1,28 @@
 package com.anvs;
 
 import java.io.IOException;
+import java.util.Arrays;
+import java.util.logging.Logger;
 
 public class NetCornServer {
-    final static int PORT = 3456;
+    public static Logger log = Logger.getLogger(NetCornServer.class.getName());
+
+    private final static int PORT = 3456;
     public static void main(String[] args) {
         try (NCServer server = new NCServer(PORT)) {
-            System.out.println("Server started...");
-            while (true) {
-                server.waitForConnect();
+            server.catchClients();
+            while(!server.isStopped()) {
+                Thread.sleep(1000);
+                server.shrinkClientPool();
             }
-//            String m;
-//            while ((m = server.getMessage()) != null) {
-//                System.out.println(m);
-//                server.getOut().write("Сообщение принято!" + '\n');
-//                server.getOut().flush();
-//            }
-//            System.out.println("Client was disconnected.");
-//            System.out.println("Server stopped!");
         } catch (IOException e) {
-            System.err.println("Sonething went wrong...");
+            log.severe("Error while server stats." + Arrays.toString(e.getStackTrace()));
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+            log.info("Server thread was int errupted.");
         }
+
+
     }
 }
 

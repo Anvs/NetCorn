@@ -2,8 +2,11 @@ package com.anvs;
 
 import java.io.*;
 import java.net.Socket;
+import java.util.logging.Logger;
 
 public class ThreadSocket extends Thread {
+
+    private static Logger log = Logger.getLogger(ThreadSocket.class.getName());
     private final static char EOL = '\n';
     private Socket clientConnection;
     private BufferedReader in;
@@ -15,6 +18,7 @@ public class ThreadSocket extends Thread {
         in = new BufferedReader(new InputStreamReader(clientConnection.getInputStream()));
         out = new BufferedWriter(new OutputStreamWriter(clientConnection.getOutputStream()));
         start();
+        log.info(this.getName() + " started.");
     }
 
     @Override
@@ -24,12 +28,14 @@ public class ThreadSocket extends Thread {
             try {
                 if (((m = receive()) == null)) break;
                 System.out.println(m);
-                send("Сообщение принято!");
+                send("Server: OK");
             } catch (IOException e) {
                 e.printStackTrace();
                 interrupt();
             }
         }
+        interrupt();
+        log.info("Connection is lost.");
     }
 
     public String receive() throws IOException {
@@ -37,14 +43,16 @@ public class ThreadSocket extends Thread {
     }
 
     public void send(String message) throws IOException {
-        out.write(message + EOL);
-        out.flush();
+        if (!clientConnection.isClosed()) {
+            out.write(message + EOL);
+            out.flush();
+        }
     }
 
     @Override
     public void interrupt() {
         try {
-            send("Server cut the connection...");
+            send("Server cuts off the connection...");
             clientConnection.close();
             in.close();
             out.close();
@@ -52,7 +60,11 @@ public class ThreadSocket extends Thread {
             e.printStackTrace();
         } finally {
             super.interrupt();
+            log.info("Sokcet is interrupted.");
         }
+    }
 
+    public boolean isClosed() {
+        return clientConnection.isClosed();
     }
 }
