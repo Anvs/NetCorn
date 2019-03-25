@@ -1,7 +1,5 @@
 package com.anvs;
 
-import java.util.concurrent.CountDownLatch;
-
 /**
  * Hello world!
  *
@@ -12,5 +10,4 @@ public class MultiThreadTutorialApp
     {
         System.out.println( "Hello World!" );
     }
-
 }

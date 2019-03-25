@@ -19,7 +19,7 @@ public class NetCornServer {
             log.severe("Error while server stats." + Arrays.toString(e.getStackTrace()));
         } catch (InterruptedException e) {
             e.printStackTrace();
-            log.info("Server thread was int errupted.");
+            log.info("Server thread was interrupted.");
         }
 
 
